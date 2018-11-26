@@ -6,7 +6,7 @@ public class DummyMain {
 		WebGraph graph = new WebGraph();
 		graph = graph.buildFromFiles("pages.txt", "links.txt");
 		graph.printTable();
-		graph.searchKeyword("social");
+		graph.searchKeyword("tech");
 	}
 
 }

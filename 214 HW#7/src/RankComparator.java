@@ -1,9 +1,11 @@
 import java.util.Comparator;
 
-public class RankComparator implements Comparator {
+public class RankComparator implements Comparator<WebPage> {
+
 	@Override
-	public int compare(Object o1, Object o2) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int compare(WebPage o1, WebPage o2) {
+		///used for sorting in descending order RANK
+		return o2.getRank()-o1.getRank();
 	}
+	
 }

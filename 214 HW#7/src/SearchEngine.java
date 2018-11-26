@@ -1,6 +1,7 @@
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -74,7 +75,35 @@ public class SearchEngine {
 			}
 			//print table
 			else if(option.equals("P")) {
+				String printSortMenu = "(I) Sort based on index (ASC)\n"
+						+ "(U) Sort based on URL (ASC)\n"
+						+ "(R) Sort based on rank (DSC)\n";
+				System.out.println(printSortMenu);
+				System.out.println("Please select an option: ");
+				String sortAs = input.nextLine().toUpperCase();
+				
+				//conditions
+				if(sortAs.equals("I")) {
+					Collections.sort(graph.getPages(), new IndexComparator());
+				}
+				else if(sortAs.equals("U")) {
+					Collections.sort(graph.getPages(), new URLComparator());
+				}
+				else if(sortAs.equals("R")) {
+					Collections.sort(graph.getPages(), new RankComparator());
+				}
+				//print table
 				graph.printTable();
+				
+				//put back pages to Index ASC in order to not destroy further manipultion
+				Collections.sort(graph.getPages(), new IndexComparator());
+			}
+			
+			//search pages from keyword
+			else if(option.equals("S")) {
+				System.out.println("Search keyword: ");
+				String keyword = input.nextLine();
+				graph.searchKeyword(keyword);
 			}
 			
 			System.out.println();

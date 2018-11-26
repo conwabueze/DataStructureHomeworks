@@ -1,10 +1,12 @@
 import java.util.Comparator;
 
-public class URLComparator implements Comparator{
+public class URLComparator implements Comparator<WebPage>{
+
 	@Override
-	public int compare(Object o1, Object o2) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int compare(WebPage o1, WebPage o2) {
+		///used for sorting in ascending order URL 
+		return o1.getURL().compareTo(o2.getURL());
 	}
+
 
 }

@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -212,20 +214,37 @@ public class WebGraph {
 	
 	//search keyword
 	public void searchKeyword(String keyword) {
-//		String header = String.format("%1s%20s%20s", "Rank","PageRank","URL");
-//		System.out.println(header);
-//		System.out.println("----------------------------------------------");
-//		ArrayList<WebPage> keywordSearchList = new ArrayList<>();
-//		for(int i = 0; i<pages.size(); i++) {
-//			if(pages.get(i).getKeywords().contains(keyword)) {
-//				String content = String.format("%1s%20s%20s", args);
-//			}
-//				
-//		}
-//		
-//		
-//		
-//		String content = String.format("%1s%20s%20s", args);
+		String header = String.format("%1s%15s%15s", "Rank","PageRank","URL");
+		System.out.println(header);
+		System.out.println("----------------------------------------------");
+		ArrayList<WebPage> keywordSearchList = new ArrayList<>();
+		for(int i = 0; i<pages.size(); i++) {
+			if(pages.get(i).getKeywords().contains(keyword)) {
+				keywordSearchList.add(pages.get(i));
+				//String content = String.format("%1s%20s%20s", args);
+			}
+				
+		}
+		//sort Array by Rank
+		Collections.sort(keywordSearchList, new RankComparator());
+		
+		//print out sorted array
+		int rank = 1;
+		for(int i = 0; i<keywordSearchList.size();i++) {
+			WebPage page =keywordSearchList.get(i);
+			String content = String.format("%1s%15s%20s", rank+"\t|",page.getRank()+"\t|",page.getURL()+"\t|");
+			System.out.println(content);
+			rank++;
+		}
+		
+		//reset rank
+		rank = 0;
+		
+	
+		
+		
+		
+		//String content = String.format("%1s%20s%20s", args);
 		
 	}
 	
@@ -259,5 +278,23 @@ public class WebGraph {
 			System.out.println(content);
 		}
 	}
+
+
+	public ArrayList<WebPage> getPages() {
+		return pages;
+	}
+
+
+	public ArrayList<ArrayList<Integer>> getEdges() {
+		return edges;
+	}
+
+
+	public HashMap<String, Integer> getUrlIndexLookUp() {
+		return urlIndexLookUp;
+	}
+	
+	//////GETTERS AND SETTERS//////////
+	
 	
 }
