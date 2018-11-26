@@ -103,23 +103,24 @@ public class WebGraph {
 			
 			
 		}
-		//printout arraycontent
-		for(int i = 0; i < edges.size(); i++) {
-			for(int x = 0; x< edges.get(i).size();x++) {
-				System.out.print(edges.get(i).get(x) + " ");
-			}
-			System.out.println();
-		}
-		return new WebGraph(pages,edges,urlIndexLookUp);
+		
+		
+		//update page ranks
+		WebGraph graph = new WebGraph(pages,edges,urlIndexLookUp);
+		graph.updatePageRanks();
+	
+		return graph;
 	}
 	
 	public void addPage(String url, ArrayList<String> keywords) throws IllegalArgumentException{
 		if(urlIndexLookUp.containsKey(url)) {
 			throw new IllegalArgumentException("This page already exist");
 		}
-		WebPage page = new WebPage(url,pages.size()-1,0,keywords);
+		WebPage page = new WebPage(url,pages.size(),0,keywords);
 		pages.add(page);
+		edges.add(new ArrayList<Integer>());
 		urlIndexLookUp.put(url, pages.size()-1);
+		updatePageRanks();
 	}
 	
 	public void addLink(String source, String destination) throws IllegalArgumentException{
@@ -127,12 +128,10 @@ public class WebGraph {
 			throw new IllegalArgumentException("One or Both of these URL's does not exist");
 		}
 		edges.get(urlIndexLookUp.get(source)).add(urlIndexLookUp.get(destination));
+		updatePageRanks();
 	}
 	
 	public void removePage(String url) {
-		for(String urls: urlIndexLookUp.keySet()) {
-			System.out.println(urls);
-		}
 		//get index of page we want to remove
 		int removalIndex = urlIndexLookUp.get(url);
 		
@@ -160,12 +159,75 @@ public class WebGraph {
 		//remove index from page list
 		pages.remove(removalIndex);
 		
-		//printout arraycontent
-				for(int i = 0; i < edges.size(); i++) {
-					for(int x = 0; x< edges.get(i).size();x++) {
-						System.out.print(edges.get(i).get(x) + " ");
-					}
-					System.out.println();
-				}
+		
+				updatePageRanks();
 	}
+	
+	public void removeLink(String source, String destination) {
+		//get edge list of source and find index of destination
+		int removalIndex = edges.get(urlIndexLookUp.get(source)).indexOf(urlIndexLookUp.get(destination));
+		
+		//remove edge from list
+		edges.get(urlIndexLookUp.get(source)).remove(removalIndex);
+	
+		updatePageRanks();
+	}
+	
+	/*
+	 * this method will update all pages as once
+	 */
+	public void updatePageRanks() {
+		//start by getting index you want to look for one by one
+		for(int i = 0; i<pages.size(); i++) {
+			//once you get the index you want to look through the entire list
+			int rank = 0;
+			//row traverse
+			for(int x=0;x<edges.size();x++) {
+				//col traversal
+				
+				//if index is not equal to row in other words as long as where not on the same site traverse edges 
+				if(i!=x) {
+					for(int y =0; y<edges.get(x).size();y++) {
+						if(edges.get(x).get(y)==i)
+							rank++;
+					}
+				}
+			}
+			
+			//update page rank of particular site
+			pages.get(i).setRank(rank);
+		}
+	}
+	
+	public void printTable() {
+		String tableHeader = String.format("%2s%20s%30s%20s%40s", "Index", "URL","PageRank","Links","Keywords");
+		System.out.println(tableHeader);
+		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------");
+		for(int i =0; i<pages.size(); i++) {
+			String keywords = "";
+			//checks if keywords is empty
+			if(pages.get(i).getKeywords().size()==0) {
+				//if empty set to 0
+				keywords = "";
+			}
+			else {
+				keywords = pages.get(i).getKeywords().toString();
+				keywords = keywords.substring(1, keywords.length()-1);
+			}
+			
+			String links = "";
+			if(edges.get(i).size()<=0) {
+				links = "";
+			}
+			else {
+				links = edges.get(i).toString();
+				links = links.substring(1, links.length()-1);
+			}
+
+			//String content  = String.format("%2s%10s%30s%20s%30s", pages.get(i).getIndex(), pages.get(i).getURL(), pages.get(i).getRank(), links, keywords);
+			String content  = String.format("%2s%30s%20s%25s%50s", pages.get(i).getIndex()+"\t|", pages.get(i).getURL()+"\t|", pages.get(i).getRank()+"\t|",links+"\t|",keywords);
+			System.out.println(content);
+		}
+	}
+	
 }
