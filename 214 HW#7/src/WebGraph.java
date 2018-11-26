@@ -158,9 +158,20 @@ public class WebGraph {
 		
 		//remove index from page list
 		pages.remove(removalIndex);
+		//remove edge from edgelist
+		edges.remove(removalIndex);
 		
+		///update lookup table///
 		
-				updatePageRanks();
+		//remove url from table
+		urlIndexLookUp.remove(url);
+		//now loop through pages starting from the removed index pull the hash by key and decrement the value of the hash
+		for(int i = removalIndex; i<pages.size(); i++) {
+			urlIndexLookUp.put(pages.get(i).getURL(),urlIndexLookUp.get(pages.get(i).getURL())-1);
+		}
+		
+		//update page rank
+		updatePageRanks();
 	}
 	
 	public void removeLink(String source, String destination) {
@@ -197,6 +208,25 @@ public class WebGraph {
 			//update page rank of particular site
 			pages.get(i).setRank(rank);
 		}
+	}
+	
+	//search keyword
+	public void searchKeyword(String keyword) {
+//		String header = String.format("%1s%20s%20s", "Rank","PageRank","URL");
+//		System.out.println(header);
+//		System.out.println("----------------------------------------------");
+//		ArrayList<WebPage> keywordSearchList = new ArrayList<>();
+//		for(int i = 0; i<pages.size(); i++) {
+//			if(pages.get(i).getKeywords().contains(keyword)) {
+//				String content = String.format("%1s%20s%20s", args);
+//			}
+//				
+//		}
+//		
+//		
+//		
+//		String content = String.format("%1s%20s%20s", args);
+		
 	}
 	
 	public void printTable() {

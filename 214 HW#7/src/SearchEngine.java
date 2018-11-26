@@ -51,11 +51,26 @@ public class SearchEngine {
 				
 			}
 			//remove page
-			///////////////////FIX METHOD///////////////////////
 			else if(option.equals("RP")) {
 				System.out.println("Enter a URL: ");
 				String url = input.nextLine();
 				graph.removePage(url);
+			}
+			//add link between pages in the graph
+			else if(option.equals("AL")) {
+				System.out.println("Enter a source URL: ");
+				String source = input.nextLine();
+				System.out.println("Enter a destination URL: ");
+				String destination = input.nextLine();
+				graph.addLink(source, destination);
+			}
+			//remove link
+			else if(option.equals("RL")) {
+				System.out.println("Enter a source URL: ");
+				String source = input.nextLine();
+				System.out.println("Enter a destination URL: ");
+				String destination = input.nextLine();
+				graph.removeLink(source, destination);
 			}
 			//print table
 			else if(option.equals("P")) {
