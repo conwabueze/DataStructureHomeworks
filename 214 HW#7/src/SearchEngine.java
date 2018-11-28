@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SearchEngine {
+	//////MEMBER VARIABLES
 	public static final String PAGES_FILE = "pages.txt";
 	public static final String LINKS_FILE = "links.txt";
 	private WebGraph web;
@@ -85,15 +86,25 @@ public class SearchEngine {
 				//conditions
 				if(sortAs.equals("I")) {
 					Collections.sort(graph.getPages(), new IndexComparator());
+					//print table
+					graph.printTable();
 				}
 				else if(sortAs.equals("U")) {
 					Collections.sort(graph.getPages(), new URLComparator());
+					//reorder edges in accordance to sort
+					graph.edgeListReorder();
+					//print table
+					graph.printTableAlt();
 				}
 				else if(sortAs.equals("R")) {
 					Collections.sort(graph.getPages(), new RankComparator());
+					//reorder edges in accordance to sort
+					graph.edgeListReorder();
+					//print table
+					graph.printTableAlt();
 				}
-				//print table
-				graph.printTable();
+			
+				
 				
 				//put back pages to Index ASC in order to not destroy further manipultion
 				Collections.sort(graph.getPages(), new IndexComparator());
@@ -104,6 +115,11 @@ public class SearchEngine {
 				System.out.println("Search keyword: ");
 				String keyword = input.nextLine();
 				graph.searchKeyword(keyword);
+			}
+			
+			else if(option.equals("Q")) {
+				System.out.println("\nGoodbye.");
+				break;
 			}
 			
 			System.out.println();

@@ -14,6 +14,9 @@ public class WebGraph {
 	private ArrayList<ArrayList<Integer>> edges;
 	private HashMap<String, Integer> urlIndexLookUp;
 	
+	//this member variable used for means on manipulation when printing the table
+	private ArrayList<ArrayList<Integer>> edgesReorder;
+	
 	public WebGraph() {
 		
 	}
@@ -126,7 +129,7 @@ public class WebGraph {
 	}
 	
 	public void addLink(String source, String destination) throws IllegalArgumentException{
-		if(!(urlIndexLookUp.containsKey(source) || urlIndexLookUp.containsKey(destination))) {
+		if(urlIndexLookUp.containsKey(source) || urlIndexLookUp.containsKey(destination)) {
 			throw new IllegalArgumentException("One or Both of these URL's does not exist");
 		}
 		edges.get(urlIndexLookUp.get(source)).add(urlIndexLookUp.get(destination));
@@ -276,6 +279,54 @@ public class WebGraph {
 			//String content  = String.format("%2s%10s%30s%20s%30s", pages.get(i).getIndex(), pages.get(i).getURL(), pages.get(i).getRank(), links, keywords);
 			String content  = String.format("%2s%30s%20s%25s%50s", pages.get(i).getIndex()+"\t|", pages.get(i).getURL()+"\t|", pages.get(i).getRank()+"\t|",links+"\t|",keywords);
 			System.out.println(content);
+		}
+	}
+	
+	//used for printing
+	public void printTableAlt() {
+		String tableHeader = String.format("%2s%20s%30s%20s%40s", "Index", "URL","PageRank","Links","Keywords");
+		System.out.println(tableHeader);
+		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------");
+		for(int i =0; i<pages.size(); i++) {
+			String keywords = "";
+			//checks if keywords is empty
+			if(pages.get(i).getKeywords().size()==0) {
+				//if empty set to 0
+				keywords = "";
+			}
+			else {
+				keywords = pages.get(i).getKeywords().toString();
+				keywords = keywords.substring(1, keywords.length()-1);
+			}
+			
+			String links = "";
+			if(edgesReorder.get(i).size()<=0) {
+				links = "";
+			}
+			else {
+				links = edgesReorder.get(i).toString();
+				links = links.substring(1, links.length()-1);
+			}
+
+			//String content  = String.format("%2s%10s%30s%20s%30s", pages.get(i).getIndex(), pages.get(i).getURL(), pages.get(i).getRank(), links, keywords);
+			String content  = String.format("%2s%30s%20s%25s%50s", pages.get(i).getIndex()+"\t|", pages.get(i).getURL()+"\t|", pages.get(i).getRank()+"\t|",links+"\t|",keywords);
+			System.out.println(content);
+		}
+	}
+	/*
+	 * this method reorder the edges list depending on the order
+	 * method used mainly for print table in whatever order
+	 */
+	public void edgeListReorder() {
+		//create order new 2D ArrayList and pull from old and put into new
+		edgesReorder = new ArrayList<>();
+		
+		//traverse page list and pull edge list and insert for new order
+		
+		//Initialize nest array list;
+		for(int i = 0; i<pages.size(); i++) {
+			int listIndex = urlIndexLookUp.get(pages.get(i).getURL());
+			edgesReorder.add(edges.get(listIndex));
 		}
 	}
 
