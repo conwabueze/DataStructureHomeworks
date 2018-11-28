@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class WebGraph {
-
+	////////////MEMBER VARIABLES////////////
 	private static final int MAX_PAGES = 40;
 	private ArrayList<WebPage> pages;
 	private ArrayList<ArrayList<Integer>> edges;
@@ -17,6 +17,7 @@ public class WebGraph {
 	//this member variable used for means on manipulation when printing the table
 	private ArrayList<ArrayList<Integer>> edgesReorder;
 	
+	///////////////CONSTRUCTORS/////////////
 	public WebGraph() {
 		
 	}
@@ -35,7 +36,14 @@ public class WebGraph {
 		this.urlIndexLookUp = urlIndexLookUp;
 	}
 
-
+	/**
+	 * 
+	 * @param pagesFile, name of page file
+	 * @param linksFile, name of links file
+	 * @throws IllegalArgumentException, File not found
+	 * @throws FileNotFoundException, File not found
+	 * @return WebGraph, webgraph built from files
+	 */
 	public static WebGraph buildFromFiles(String pagesFile, String linksFile) throws IllegalArgumentException, FileNotFoundException{
 		//Lists needed to return WebGraph Object
 		ArrayList<WebPage> pages = new ArrayList<>();
@@ -117,6 +125,12 @@ public class WebGraph {
 		return graph;
 	}
 	
+	/*
+	 * 
+	 * @param url, url of pages
+	 * @param kehywords, keywords associated with page
+	 * @throws IllegalArgumentException, url already exist
+	 */
 	public void addPage(String url, ArrayList<String> keywords) throws IllegalArgumentException{
 		if(urlIndexLookUp.containsKey(url)) {
 			throw new IllegalArgumentException("This page already exist");
@@ -128,6 +142,12 @@ public class WebGraph {
 		updatePageRanks();
 	}
 	
+	/**
+	 * 
+	 * @param source, source 
+	 * @param destination, destination of link
+	 * @throws IllegalArgumentException, invalid source or destination name
+	 */
 	public void addLink(String source, String destination) throws IllegalArgumentException{
 		if(urlIndexLookUp.containsKey(source) || urlIndexLookUp.containsKey(destination)) {
 			throw new IllegalArgumentException("One or Both of these URL's does not exist");
@@ -135,7 +155,10 @@ public class WebGraph {
 		edges.get(urlIndexLookUp.get(source)).add(urlIndexLookUp.get(destination));
 		updatePageRanks();
 	}
-	
+	/**
+	 * 
+	 * @param url, url to remove 
+	 */
 	public void removePage(String url) {
 		//get index of page we want to remove
 		int removalIndex = urlIndexLookUp.get(url);
@@ -179,6 +202,11 @@ public class WebGraph {
 		updatePageRanks();
 	}
 	
+	/**
+	 * 
+	 * @param source, source 
+	 * @param destination, destination of link
+	 */
 	public void removeLink(String source, String destination) {
 		//get edge list of source and find index of destination
 		int removalIndex = edges.get(urlIndexLookUp.get(source)).indexOf(urlIndexLookUp.get(destination));
@@ -215,7 +243,10 @@ public class WebGraph {
 		}
 	}
 	
-	//search keyword
+	/**
+	 * 
+	 * @param keyword, keyword to search 
+	 */
 	public void searchKeyword(String keyword) {
 		String header = String.format("%1s%15s%15s", "Rank","PageRank","URL");
 		System.out.println(header);
@@ -251,6 +282,9 @@ public class WebGraph {
 		
 	}
 	
+	/**
+	 * method prints table
+	 */
 	public void printTable() {
 		String tableHeader = String.format("%2s%20s%30s%20s%40s", "Index", "URL","PageRank","Links","Keywords");
 		System.out.println(tableHeader);
@@ -282,7 +316,9 @@ public class WebGraph {
 		}
 	}
 	
-	//used for printing
+	/**
+	 * prints table but uses edgeReorder nested list instead
+	 */
 	public void printTableAlt() {
 		String tableHeader = String.format("%2s%20s%30s%20s%40s", "Index", "URL","PageRank","Links","Keywords");
 		System.out.println(tableHeader);
@@ -330,7 +366,7 @@ public class WebGraph {
 		}
 	}
 
-
+	//////GETTERS AND SETTERS//////////
 	public ArrayList<WebPage> getPages() {
 		return pages;
 	}
@@ -345,7 +381,7 @@ public class WebGraph {
 		return urlIndexLookUp;
 	}
 	
-	//////GETTERS AND SETTERS//////////
+	
 	
 	
 }

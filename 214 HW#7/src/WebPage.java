@@ -2,11 +2,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class WebPage {
+	/////////////MEMBER VARIABLES//////////////
 	private String URL;
 	private int index;
 	private int rank;
 	private ArrayList<String> keywords;
 	
+	//////////////////CONSTRUCTORS////////////////////
 	public WebPage() {}
 
 	public WebPage(String uRL, int index, int rank, ArrayList<String> keywords) {
@@ -17,6 +19,7 @@ public class WebPage {
 		this.keywords = keywords;
 	}
 	
+	//////////GETTERS AND SETTERS///////////////
 	public String getURL() {
 		return URL;
 	}
@@ -49,6 +52,7 @@ public class WebPage {
 		this.keywords = keywords;
 	}
 
+	/////////////TO STRING//////////////////////
 	@Override
 	public String toString() {
 		return "Webpage [URL=" + URL + ", index=" + index + ", rank=" + rank + ", keywords=" + keywords + "]";

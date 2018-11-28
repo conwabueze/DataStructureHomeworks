@@ -6,11 +6,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SearchEngine {
-	//////MEMBER VARIABLES
+	//////MEMBER VARIABLES///
 	public static final String PAGES_FILE = "pages.txt";
 	public static final String LINKS_FILE = "links.txt";
 	private WebGraph web;
 	
+	////MAIN METHOD//////////
 	public static void main(String[] args) throws IllegalArgumentException, FileNotFoundException {
 		String menu = "Menu:\n"
 				+ "\t(AP) - Add a new page to the graph.\n"
