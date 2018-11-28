@@ -1,3 +1,5 @@
+
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -149,7 +151,7 @@ public class WebGraph {
 	 * @throws IllegalArgumentException, invalid source or destination name
 	 */
 	public void addLink(String source, String destination) throws IllegalArgumentException{
-		if(urlIndexLookUp.containsKey(source) || urlIndexLookUp.containsKey(destination)) {
+		if((!urlIndexLookUp.containsKey(source) || !urlIndexLookUp.containsKey(destination))) {
 			throw new IllegalArgumentException("One or Both of these URL's does not exist");
 		}
 		edges.get(urlIndexLookUp.get(source)).add(urlIndexLookUp.get(destination));
